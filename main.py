@@ -1,6 +1,8 @@
 from ray import Ray
 from object import Sphere 
-from materials import mirror
+from materials import mirror, lambertian
+import numpy as np
+
 
 
 ray = Ray(
@@ -27,3 +29,13 @@ if t is not None:
     reflected = mirror(ray.direction, normal)
 
     print(reflected)
+
+
+
+
+print("nflkenflkewnfklendlfnj")
+
+normal = np.array([0.0, 0.0, 1.0])
+direction = lambertian(normal)
+print(direction)
+print(np.dot(direction, normal))
