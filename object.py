@@ -39,3 +39,52 @@ class Sphere:
 
         return N
 
+
+class Polygon: # currently square?
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.normal = self.calculate_normal()
+
+    def calculate_normal(self):
+        edge1 = self.vertices[1] - self.vertices[0]
+        edge2 = self.vertices[2] - self.vertices[0]
+
+        normal = np.cross(edge1, edge2)
+
+        return normal / np.linalg.norm(normal)
+    
+
+class Cuboid:
+    def __init__(self, position, width, height, depth):
+        self.position = position
+        self.width = width
+        self.height = height
+        self.depth = depth
+
+        x, y, z = position
+
+        # 8 vertices
+        v0 = np.array([x, y, z])
+        v1 = np.array([x + width, y, z])
+        v2 = np.array([x + width, y + height, z])
+        v3 = np.array([x, y + height, z])
+
+        v4 = np.array([x, y, z + depth])
+        v5 = np.array([x + width, y, z + depth])
+        v6 = np.array([x + width, y + height, z + depth])
+        v7 = np.array([x, y + height, z + depth])
+
+        # 6 faces
+        self.faces = [
+            Polygon([v0, v1, v2, v3]),  # front
+            Polygon([v4, v7, v6, v5]),   # back
+
+            Polygon([v0, v4, v5, v1]),  # bottom
+            Polygon([v3, v2, v6, v7]),   # top
+
+            Polygon([v0, v3, v7, v4]), # left
+            Polygon([v1, v5, v6, v2])   # right
+        ]
+
+    def __str__(self):
+        return f"Cuboid with vertices: {self.faces}"
